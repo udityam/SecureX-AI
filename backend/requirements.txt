@@ -1,0 +1,13 @@
+fastapi[standard]
+uvicorn
+pydantic
+ollama
+sqlalchemy
+python-multipart
+PyPDF2
+pymupdf
+easyocr
+opencv-python-headless
+numpy
+weasyprint
+xhtml2pdf
