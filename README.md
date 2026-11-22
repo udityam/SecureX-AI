@@ -1,295 +1,159 @@
-# SecureX AI
+# 🛡️ SecureX AI
 
-<div align="center">
+**Next-Generation Phishing & Quishing Detection Engine with Hybrid Heuristic-LLM Architecture and Active Cyber Deception**
 
-![SecureX AI Banner](https://img.shields.io/badge/SECUREX_AI-SOC_TIER--3_ANALYST-00f0ff?style=for-the-badge&logo=shield&logoColor=black)
-
-**Autonomous AI-Powered Cyber Threat Intelligence, Document Forensics & Active Counter-Measures**
-
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Bundler-Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Ollama](https://img.shields.io/badge/AI_Engine-Ollama_(deepseek--r1:7b)-black?style=flat-square&logo=ollama&logoColor=white)](https://ollama.ai/)
-[![Docker](https://img.shields.io/badge/Containers-Docker_Compose-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
-
-</div>
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Ollama](https://img.shields.io/badge/Ollama-DeepSeek--R1_7B-000000?logo=ollama&logoColor=white)](https://ollama.com/)
+[![Docker](https://img.shields.io/badge/Docker-Air--Gapped-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
 ---
 
 ## 📌 Overview
 
-**SecureX AI** is a full-stack, local-first Security Operations Center (SOC) intelligence platform. Operating as an automated **Tier-3 Cybersecurity SOC Analyst**, SecureX AI analyzes suspicious communications, invoices, URLs, files, and multi-modal payloads to identify malicious intent, compute risk scores, extract Indicators of Compromise (IoCs), and generate actionable remediation strategies.
+**SecureX AI** is a privacy-first, air-gapped cybersecurity triage platform designed to detect modern social engineering attacks—including **AI-generated spear-phishing** and **Quishing (QR Code Phishing)**—without sending sensitive institutional or enterprise data to third-party cloud APIs.
 
-Going beyond passive detection, SecureX AI incorporates an **Active Counter-Measure Engine** that drafts context-aware scam-baiting responses designed to confuse threat actors, waste attacker resources, and prevent credential harvesting.
-
----
-
-## ⚡ Key Features
-
-- **🔍 Multi-Vector Threat Analysis**
-  - **Text & Email Scanning**: Analyzes raw payloads, email headers, SMS/smishing campaigns, and phishing URLs.
-  - **Suspicious Domain & TLD Detection**: Flags typosquatting, high-risk top-level domains (`.xyz`, `.cc`, `.top`, `.buzz`, `.work`, `.tk`), and sender-domain mismatches.
-  - **Invoice Scam Detection**: Flags social engineering attacks, fake renewal notices (e.g., Geek Squad, Norton, McAfee), and refund fraud patterns.
-
-- **📄 Document Forensics & Optical Character Recognition (OCR)**
-  - Native digital text extraction from PDFs via `PyMuPDF` (`fitz`).
-  - Computer vision-powered OCR via `EasyOCR` and OpenCV for rasterized documents, scans, and screenshot payloads (`.pdf`, `.png`, `.jpg`, `.jpeg`).
-  - **Quishing Defense**: Automatic OpenCV QR code detection (`[HIDDEN QR CODE PAYLOAD DETECTED]`) to identify malicious QR codes embedded inside documents or images.
-
-- **🛡️ Hybrid AI + Deterministic Security Guardrails**
-  - Powered by local LLM reasoning (`deepseek-r1:7b` via Ollama) with temperature set to `0.0` for structured, deterministic JSON outputs.
-  - Built-in hard guardrail filters override false-low ratings when definitive threat indicators (e.g., malicious TLDs, QR exploits, financial triggers) are discovered.
-
-- **🎯 Autonomous Scam-Baiting Counter-Measures**
-  - One-click counter-measure generator for `HIGH` and `CRITICAL` incidents.
-  - Employs behavioral prompt engineering to mimic naive, confused targets, keeping attackers engaged in harmless loops without disclosing sensitive data.
-
-- **📊 SOC Analytics Dashboard**
-  - Cyberpunk terminal-inspired HUD built with React 19.
-  - Real-time Threat Distribution pie chart & Scan Activity timeline using `Recharts`.
-  - Comprehensive scan history table with severity categorization, timestamping, and quick actions.
-
-- **📑 Automated Forensic PDF Reports**
-  - Instant on-demand generation of official, printer-friendly cyber threat incident reports via `xhtml2pdf`.
-  - Includes incident ID, severity classification, target payload preview, itemized IoCs, and mitigation guidance.
+Unlike traditional text-only spam filters or standalone probabilistic LLMs that suffer from hallucinations, SecureX AI combines **Computer Vision (OpenCV + EasyOCR)**, **Local Reasoning (DeepSeek-R1 7B via Ollama)**, and **Deterministic Python Guardrails** to guarantee repeatable, high-accuracy threat classification. When a severe threat is confirmed, analysts can trigger the **Active Cyber Deception (Scam-Baiter)** module to generate safe, time-wasting counter-replies.
 
 ---
 
-## 🏗️ Architecture
+## ✨ Key Features
+
+- **🔍 Multimodal Threat Ingestion:** Analyze raw text, suspicious URLs, email bodies, images (`PNG`, `JPG`), and `PDF` documents from a unified SOC dashboard.
+- **📷 Computer Vision & Quishing Defense:** Uses **OpenCV** to locate and decode hidden QR codes inside images/PDFs while **EasyOCR** extracts embedded text layers simultaneously.
+- **🧠 Hybrid Heuristic-LLM Engine:** Pairs local **DeepSeek-R1 (7B)** semantic reasoning with strict, deterministic Python override rules to eliminate false negatives and LLM hallucinations.
+- **🎯 Active Cyber Deception (Scam-Baiter):** Automatically surfaces a counter-measure generator for `HIGH` and `CRITICAL` threats, drafting believable, naive, time-wasting responses for analysts without auto-sending or leaking user data.
+- **📊 Enterprise SOC Dashboard:** Minimalist dark/light mode React interface featuring real-time Threat Distribution analytics, Scan Activity Timeline, SQLite-backed Scan History logs, and downloadable forensic reports.
+- **🔒 100% On-Premise & Air-Gapped:** All OCR, QR decoding, LLM inference, and database storage execute locally via Docker and Ollama.
+
+---
+
+## 🏗️ System Architecture
 
 ```mermaid
-graph TD
-    User([Security Analyst / User]) -->|Upload Text / Files| Frontend[React 19 + Vite Dashboard :5173]
-    Frontend -->|REST API Calls| Backend[FastAPI Backend :8000]
-
-    subgraph Backend Engine
-        Backend --> FileParser[Document / Image Parser]
-        FileParser -->|Text / PDF| PyMuPDF[PyMuPDF]
-        FileParser -->|Images / Scans| EasyOCR[EasyOCR]
-        FileParser -->|QR Payloads| OpenCV[OpenCV QR Detector]
-
-        Backend --> Guardrails[Deterministic Hybrid Guardrails]
-        Backend --> DB[(SQLite: securex.db)]
-        Backend --> PDFGen[xhtml2pdf Forensic Generator]
-    end
-
-    Backend -->|JSON Prompt / System Instructions| Ollama[Ollama Service :11434]
-    Ollama --> LLM[deepseek-r1:7b]
-    LLM -->|Threat Analysis JSON| Backend
-    LLM -->|Scam-Bait Payload| Backend
+flowchart LR
+    A[React + Tailwind UI] -->|Text / PDF / Image| B[FastAPI Backend]
+    B --> C[OpenCV QR Decoder]
+    B --> D[EasyOCR Text Extractor]
+    C --> E[Unified Forensic Payload]
+    D --> E
+    E --> F[Local Ollama: DeepSeek-R1 7B]
+    F --> G[Deterministic Python Guardrails]
+    G --> H[(SQLite3 Database)]
+    G --> I[Threat Score & Indicators]
+    I -->|HIGH / CRITICAL| J[Active Deception Scam-Baiter]
 ```
+
+### Hybrid Scoring Logic
+To eliminate non-deterministic LLM variance on critical Indicators of Compromise (IoCs) such as suspicious TLDs (`.xyz`, `.cc`, `.top`), fake billing lures, or hidden QR payloads, the backend enforces a deterministic severity floor:
+
+$$\text{Severity}_{\text{Final}} = \max\left(\text{Score}_{\text{LLM}},\; \text{Score}_{\text{Heuristic}}\right)$$
 
 ---
 
-## 📁 Repository Structure
+## 📸 Screenshots
 
-```text
-SecureX-AI/
-├── .gitignore               # Root git ignore rules (Python, Node, DBs, logs, IDEs)
-├── docker-compose.yml       # Multi-service container orchestration (Ollama, Backend, Frontend)
-├── README.md                # Project documentation
-├── backend/
-│   ├── .env                 # Environment variables
-│   ├── Dockerfile           # Backend container build (Python 3.11-slim + OpenCV/OCR libs)
-│   ├── requirements.txt     # Python dependencies (FastAPI, Ollama, EasyOCR, PyMuPDF, etc.)
-│   ├── server.py            # FastAPI application, OCR pipeline, DB models, & reporting
-│   └── securex.db           # SQLite database for scan records (auto-generated)
-└── frontend/
-    ├── .gitignore           # Frontend-specific git ignore
-    ├── .oxlintrc.json       # Oxlint linter configuration
-    ├── Dockerfile           # Frontend container build (Node 20-alpine + Vite)
-    ├── index.html           # Single-page entrypoint
-    ├── package.json         # React 19, Recharts, Vite scripts
-    ├── vite.config.js       # Vite configuration
-    └── src/
-        ├── App.jsx          # Cyberpunk terminal interface, analytics charts, scanner HUD
-        ├── App.css          # Application layout styling
-        ├── index.css        # Cyberpunk design system, themes, and animations
-        └── main.jsx         # React mounting root
-```
+> *Tip: Drag and drop your dashboard screenshots directly into GitHub's README editor to replace the placeholders below.*
+
+### Main Dashboard & Threat Analytics
+![SecureX AI Dashboard](docs/screenshots/dashboard.png)
+
+### Active Threat Analysis & Scam-Baiter Module
+![SecureX AI Threat Analysis](docs/screenshots/threat-analysis.png)
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | React 18, Vite, Tailwind CSS, Inter & JetBrains Mono |
+| **Backend API** | Python 3.10+, FastAPI, Uvicorn, Pydantic |
+| **Computer Vision** | OpenCV (`cv2`), EasyOCR, PyTorch, PyMuPDF (`fitz`) |
+| **Local AI Engine** | Ollama, DeepSeek-R1 (`deepseek-r1:7b` quantized) |
+| **Database** | SQLite3, SQLAlchemy ORM |
+| **Deployment** | Docker, Docker Compose |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- **Hardware:** Multi-core CPU (Intel i5/i7 or Ryzen 5/7), **16 GB RAM** recommended, 20 GB free SSD space.
+- **Software:** [Docker Desktop](https://www.docker.com/products/docker-desktop/), [Ollama](https://ollama.com/), [Node.js 18+](https://nodejs.org/), and Python 3.10+.
 
-- [Docker & Docker Compose](https://docs.docker.com/get-docker/) (Recommended)
-- Alternatively, for local manual execution:
-  - [Python 3.11+](https://www.python.org/)
-  - [Node.js 20+](https://nodejs.org/)
-  - [Ollama](https://ollama.ai/) with `deepseek-r1:7b` pulled
-
----
-
-### Option 1: Quickstart with Docker Compose (Recommended)
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/udityam/SecureX-AI.git
-   cd SecureX-AI
-   ```
-
-2. **Start all services:**
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Pull the required model in the Ollama container:**
-   ```bash
-   docker exec -it securex-ai-ollama-1 ollama run deepseek-r1:7b
-   ```
-   *(Note: Container name may vary based on your directory name. Run `docker ps` to verify).*
-
-4. **Access the application:**
-   - **Frontend UI:** [http://localhost:5173](http://localhost:5173)
-   - **Backend API & Swagger Docs:** [http://localhost:8000/docs](http://localhost:8000/docs)
-   - **Ollama API:** [http://localhost:11434](http://localhost:11434)
-
----
-
-### Option 2: Manual Local Setup
-
-#### 1. Setup Ollama
-Ensure Ollama is running on your host machine:
+### 1. Clone the Repository
 ```bash
-ollama run deepseek-r1:7b
+git clone https://github.com/udityam/SecureX-AI.git
+cd SecureX-AI
 ```
 
-#### 2. Backend Setup
-1. Open a new terminal and navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Create and activate a Python virtual environment:
-   ```bash
-   # Windows (PowerShell)
-   python -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-
-   # Linux / macOS
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-3. Install required Python packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file (if not already present):
-   ```env
-   GEMINI_API_KEY=your_optional_api_key_here
-   ```
-
-5. Launch the FastAPI server:
-   ```bash
-   python server.py
-   # Or using FastAPI CLI:
-   fastapi dev server.py --port 8000
-   ```
-   The API will be available at [http://localhost:8000](http://localhost:8000). Interactive OpenAPI docs are at [http://localhost:8000/docs](http://localhost:8000/docs).
-
-#### 3. Frontend Setup
-1. Open a separate terminal and navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-
-2. Install npm dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-4. Open [http://localhost:5173](http://localhost:5173) in your browser.
-
----
-
-## 📡 API Reference
-
-| Method | Endpoint | Description | Payload / Parameters |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/analyze` | Analyzes text payloads, phishing URLs, or email bodies | JSON: `{"content": "string"}` |
-| `POST` | `/api/analyze-file` | Extracts text/QRs from PDFs or images and runs threat analysis | `multipart/form-data` with `file` |
-| `POST` | `/api/generate-bait` | Generates scam-baiting counter-measure responses | JSON: `{"original_threat": "string"}` |
-| `GET` | `/api/history` | Fetches the last 50 scan records with threat metrics | None |
-| `GET` | `/api/report/{scan_id}` | Generates and downloads a forensic incident report PDF | Path parameter: `scan_id` (integer) |
-
-### Sample Response (`POST /api/analyze`)
-
-```json
-{
-  "target": "Account Renewal Notice: renew-service.xyz/portal",
-  "threat_level": "CRITICAL",
-  "risk_score": 95,
-  "threat_type": "Phishing / Credential Harvesting",
-  "indicators": [
-    "High-risk domain extension detected (.xyz)",
-    "Impersonation of billing renewal portal",
-    "SYSTEM OVERRIDE: Deterministic Critical Threat Detected (Suspicious TLD or QR Payload)"
-  ],
-  "recommended_action": "Do not access URL. Block domain at firewall level and report sender IP."
-}
+### 2. Pull the Local AI Model
+Ensure Ollama is running, then pull the quantized DeepSeek-R1 7B model:
+```bash
+ollama pull deepseek-r1:7b
 ```
 
----
+### 3. Start the Backend (Docker or Local)
+**Option A: Using Docker Compose**
+```bash
+docker-compose up --build
+```
 
-## 🛡️ Threat Level Classification
+**Option B: Running Locally**
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn server:app --host 0.0.0.0 --port 8000 --reload
+```
+The FastAPI interactive documentation will be available at `http://localhost:8000/docs`.
 
-| Threat Level | Score Range | Description | Typical Triggers |
-| :--- | :--- | :--- | :--- |
-| 🟢 **LOW** | 0 – 30 | Benign communications or clean text payloads | Plain text, standard email addresses without malicious links or urgent action requests |
-| 🟡 **MEDIUM** | 31 – 69 | Suspicious wording, unverified senders, or aggressive marketing | Spam-like language, unusual greetings, minor promotional unsolicited content |
-| 🟠 **HIGH** | 70 – 89 | Social engineering, fake renewal invoices, or credential phishing | Fake subscription auto-renewals (GeekSquad, Norton, McAfee), cancellation hotlines, refund forms |
-| 🔴 **CRITICAL** | 90 – 100 | Malicious infrastructure, high-risk TLDs, or embedded Quishing payloads | `.xyz`, `.cc`, `.top` TLDs, credential harvesters, embedded QR code attacks |
-
----
-
-## 🛠️ Tech Stack Details
-
-### Frontend
-- **Framework:** React 19
-- **Build Tool:** Vite 8 with HMR
-- **Visualization:** Recharts (Pie & Bar charts)
-- **Linter:** Oxlint
-- **Design:** Custom Cyberpunk HUD / Terminal Glassmorphic CSS (No bulky utility frameworks)
-
-### Backend
-- **Web Framework:** FastAPI (ASGI)
-- **Server:** Uvicorn
-- **Data Validation:** Pydantic v2
-- **Database ORM:** SQLAlchemy with SQLite
-- **OCR Engine:** EasyOCR & OpenCV (`opencv-python-headless`)
-- **PDF Engine:** PyMuPDF (`fitz`) & `xhtml2pdf` / `weasyprint`
-- **LLM Integration:** Ollama Python Client (`deepseek-r1:7b`)
+### 4. Start the Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open the URL shown in your terminal (typically `http://localhost:5173` or `http://localhost:5174`).
 
 ---
 
-## 🤝 Contributing
+## 🔌 Core API Endpoints
 
-Contributions to SecureX AI are welcome!
-
-1. Fork the Project.
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the Branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/analyze` | Analyzes raw text/URLs via DeepSeek-R1 and Python guardrails. |
+| `POST` | `/api/analyze-file` | Extracts text (EasyOCR) & QR codes (OpenCV) from PDF/PNG/JPG and runs hybrid analysis. |
+| `POST` | `/api/generate-bait` | Generates a safe, time-wasting Scam-Baiter counter-payload for verified severe threats. |
+| `GET` | `/api/history` | Retrieves persisted scan logs and analytics telemetry from SQLite. |
 
 ---
 
-<div align="center">
-  <sub>Developed for proactive cyber defense & automated threat intelligence.</sub>
-</div>
+## 🧪 Verification & Testing
+
+SecureX AI has been validated across a 20-point test suite covering:
+- **False Positive Checks:** Benign emails, contact snippets, and clean campus notices (`LOW` score, deception module hidden).
+- **Guardrail Enforcement:** Fake subscription invoices and suspicious TLDs (`.xyz`, `.cc`) consistently locked to `HIGH`/`CRITICAL` across repeated runs.
+- **Quishing Detection:** Embedded QR codes inside PNG invoices and PDF attachments decoded via OpenCV and escalated to `CRITICAL`.
+- **Persistence & CORS:** Verified SQLite retention across hard refreshes and clean `OPTIONS`/`POST` preflight handling.
+
+---
+
+## ⚠️ Limitations & Ethical Disclaimer
+
+- **Hardware Latency:** Local 7B inference on CPU-only machines may introduce minor token generation latency compared to GPU-accelerated nodes.
+- **Offline Boundary:** By design, the air-gapped engine does not actively crawl live multi-hop URL redirects.
+- **Responsible Use:** The Active Cyber Deception (Scam-Baiter) module is strictly a draft-generation utility for authorized security analysts and academic research. It never auto-transmits emails or exposes real user credentials.
+
+---
+
+## 👤 Author
+
+**Uditya Kumar Maddheshiya**  
+BCA Final Year — Artificial Intelligence & Cyber Security  
+Department of Computer Science & Information Systems  
+Shri Ramswaroop Memorial University  
+
+- GitHub: [@udityam](https://github.com/udityam)
