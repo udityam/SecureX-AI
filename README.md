@@ -152,7 +152,7 @@ SecureX AI has been validated across a 20-point test suite covering:
 ## 👤 Author
 
 **Uditya Kumar Maddheshiya**  
-BCA Final Year — Artificial Intelligence & Cyber Security  
+Bachelor of Computer Application  
 Department of Computer Science & Information Systems  
 Shri Ramswaroop Memorial University  
 
