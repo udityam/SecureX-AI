@@ -19,11 +19,19 @@ from datetime import datetime, timezone
 
 load_dotenv()
 
+# ── Config from environment ───────────────────────────────────────────────────
+OLLAMA_HOST  = os.getenv("OLLAMA_HOST",  "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "deepseek-r1:7b")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./securex.db")
+
+# Configure Ollama client to use the env-specified host
+ollama_client = ollama.Client(host=OLLAMA_HOST)
+
 app = FastAPI(title="SecureX AI API")
 reader = easyocr.Reader(['en'], gpu=False)
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./securex.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -58,7 +66,7 @@ app.add_middleware(
         "http://127.0.0.1:5174",
         "http://127.0.0.1:3000",
     ],
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -128,8 +136,8 @@ Do not contradict yourself. If you identify typosquatting or a fake invoice in t
 """
 
     try:
-        response = ollama.chat(
-            model='deepseek-r1:7b',
+        response = ollama_client.chat(
+            model=OLLAMA_MODEL,
             messages=[
                 {'role': 'system', 'content': system_instruction},
                 {'role': 'user', 'content': request.content}
@@ -228,8 +236,8 @@ CRITICAL LOGIC MAPPING (YOU MUST STRICTLY FOLLOW THESE RULES FOR "threat_level")
 Do not contradict yourself. If you identify typosquatting or a fake invoice in the indicators, the threat_level CANNOT be LOW.
 """
 
-        response = ollama.chat(
-            model='deepseek-r1:7b',
+        response = ollama_client.chat(
+            model=OLLAMA_MODEL,
             messages=[
                 {'role': 'system', 'content': SYSTEM_INSTRUCTION},
                 {'role': 'user', 'content': extracted_text}
@@ -273,8 +281,8 @@ RULES:
 @app.post("/api/generate-bait")
 async def generate_bait(request: BaitRequest):
     try:
-        response = ollama.chat(
-            model='deepseek-r1:7b',
+        response = ollama_client.chat(
+            model=OLLAMA_MODEL,
             messages=[
                 {'role': 'system', 'content': BAIT_SYSTEM_INSTRUCTION},
                 {'role': 'user', 'content': request.original_threat}

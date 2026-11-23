@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
+import { PieChart, Pie, Cell, Label, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 
 /* ─── Theme hook ──────────────────────────────────────────────────────────── */
 function useTheme() {
@@ -168,6 +168,11 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
+/* ─── Centralised API base URL ────────────────────────────────────────────── */
+// Set VITE_API_URL in .env (or Vercel env vars) to point to your Cloudflare Tunnel URL.
+// Falls back to localhost:8000 for local development.
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8000').replace(/\/$/, '')
+
 /* ─── App ─────────────────────────────────────────────────────────────────── */
 function App() {
   const { theme, toggle: toggleTheme } = useTheme()
@@ -203,11 +208,11 @@ function App() {
   const onFileInputChange = useCallback((e) => handleFileDrop(e.target.files[0]), [handleFileDrop])
 
   /* ── API calls ────────────────────────────────────────────────────────── */
-  const downloadReport = (id) => window.open(`http://localhost:8000/api/report/${id}`, '_blank')
+  const downloadReport = (id) => window.open(`${API_URL}/api/report/${id}`, '_blank')
 
   const fetchHistory = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/history')
+      const response = await fetch(`${API_URL}/api/history`)
       if (response.ok) setHistory(await response.json())
     } catch (err) { console.error('Failed to fetch history:', err) }
   }
@@ -220,7 +225,7 @@ function App() {
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const response = await fetch('http://localhost:8000/api/analyze-file', { method: 'POST', body: formData })
+      const response = await fetch(`${API_URL}/api/analyze-file`, { method: 'POST', body: formData })
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}))
         throw new Error(errData.detail || 'Failed to analyze file threat')
@@ -235,7 +240,7 @@ function App() {
     if (!content.trim()) return
     setLoading(true); setError(null); setResult(null); setBaitResponse(null)
     try {
-      const response = await fetch('http://localhost:8000/api/analyze', {
+      const response = await fetch(`${API_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content }),
@@ -254,7 +259,7 @@ function App() {
     if (!result) return
     setIsGeneratingBait(true); setBaitResponse(null)
     try {
-      const response = await fetch('http://localhost:8000/api/generate-bait', {
+      const response = await fetch(`${API_URL}/api/generate-bait`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ original_threat: content || result.target }),
@@ -562,7 +567,10 @@ function App() {
                   <div>
                     <div className="donut-wrap">
                       <ResponsiveContainer width="100%" height={180}>
-                        <PieChart onMouseLeave={() => setDonutHovered(false)}>
+                        <PieChart
+                          onMouseEnter={() => setDonutHovered(true)}
+                          onMouseLeave={() => setDonutHovered(false)}
+                        >
                           <Pie
                             data={severityData}
                             dataKey="value"
@@ -571,18 +579,50 @@ function App() {
                             innerRadius={52} outerRadius={78}
                             paddingAngle={3}
                             strokeWidth={0}
-                            onMouseEnter={() => setDonutHovered(true)}
-                            onMouseLeave={() => setDonutHovered(false)}
                           >
                             {severityData.map((entry, i) => (
                               <Cell
                                 key={`cell-${i}`}
                                 fill={entry.color}
                                 stroke="none"
-                                onMouseEnter={() => setDonutHovered(true)}
-                                onMouseLeave={() => setDonutHovered(false)}
                               />
                             ))}
+                            <Label
+                              content={({ viewBox }) => {
+                                const { cx, cy } = viewBox
+                                return donutHovered ? null : (
+                                  <g>
+                                    <text
+                                      x={cx} y={cy - 6}
+                                      textAnchor="middle"
+                                      dominantBaseline="middle"
+                                      style={{
+                                        fontSize: '1.35rem',
+                                        fontWeight: 700,
+                                        fontFamily: 'JetBrains Mono, monospace',
+                                        fill: 'var(--text-primary)',
+                                      }}
+                                    >
+                                      {totalScans}
+                                    </text>
+                                    <text
+                                      x={cx} y={cy + 14}
+                                      textAnchor="middle"
+                                      dominantBaseline="middle"
+                                      style={{
+                                        fontSize: '0.63rem',
+                                        fontWeight: 500,
+                                        letterSpacing: '0.05em',
+                                        fill: 'var(--text-muted)',
+                                        textTransform: 'uppercase',
+                                      }}
+                                    >
+                                      Total
+                                    </text>
+                                  </g>
+                                )
+                              }}
+                            />
                           </Pie>
                           <Tooltip
                             content={<ChartTooltip />}
@@ -590,10 +630,6 @@ function App() {
                           />
                         </PieChart>
                       </ResponsiveContainer>
-                      <div className={`donut-center ${donutHovered ? 'donut-center--hidden' : ''}`}>
-                        <span className="donut-center-count">{totalScans}</span>
-                        <span className="donut-center-label">Total</span>
-                      </div>
                     </div>
                     <div className="donut-legend flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 mt-3 text-xs text-zinc-400">
                       {LEGEND_ITEMS.map((item) => {
